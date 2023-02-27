@@ -5,7 +5,7 @@ import './App.css';
 function App() {
 
   const [foodName, setFoodName ] = useState('')
-  const [editFoodName, setNewFoodname ] = useState()
+  const [editFoodName, setNewFoodname ] = useState('')
   const [days, setDays] = useState(0)
   const [editDays, setNewDays] = useState()
   const [foodList, setFoodList] = useState([])
@@ -22,6 +22,10 @@ function App() {
     Axios.post('http://localhost:3001/insert', {foodName:foodName, days:days})
     console.log(foodName + days);
   }
+
+  const updateFood = (id) => {
+    Axios.put('http://localhost:3001/update', {id: id, newFoodName: editFoodName})
+  }
   
   const openOptions = () => {
     setEditIsClicked(true)
@@ -32,6 +36,10 @@ function App() {
       document.getElementById('edit-options').style.display = "none"
     }
     
+  }
+
+  const deleteFood = (id) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`)
   }
 
   return (
@@ -60,12 +68,12 @@ function App() {
             <h3>{food.lastAte}</h3>
             <div className="card-functions">
               <button className="edit" onClick={openOptions}>Edit</button>
-              <button className="delete">Delete</button>
+              <button className="delete" onClick={() => deleteFood(food._id)}>Delete</button>
             </div>
             <div className="edit-options" id={'edit-options'}>
               <input type="text" onChange={(e)=>{setNewFoodname(e.target.value)}}placeholder="Edit Food Name" />
               <input type="number" onChange={(e)=>{setNewDays(e.target.value)}} placeholder="Edit Last Ate"/>
-              <button className="update">Update</button>
+              <button className="update" onClick={() => updateFood(food._id)}>Update</button>
             </div>
           </div>
         })
