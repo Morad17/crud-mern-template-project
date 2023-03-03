@@ -16,7 +16,7 @@ function App() {
       setFoodList(response.data)
 
     })
-  }, []) 
+  }, [])  
 
   const addToList = () => {
     Axios.post('http://localhost:3001/insert', {foodName:foodName, days:days})
